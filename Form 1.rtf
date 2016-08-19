@@ -1,0 +1,127 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1343\cocoasubrtf140
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue255;\red43\green145\blue175;\red163\green21\blue21;
+}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+
+\f0\fs19 \cf2 using\cf0  System;\
+\cf2 using\cf0  System.Collections.Generic;\
+\cf2 using\cf0  System.ComponentModel;\
+\cf2 using\cf0  System.Data;\
+\cf2 using\cf0  System.Drawing;\
+\cf2 using\cf0  System.Linq;\
+\cf2 using\cf0  System.Text;\
+\cf2 using\cf0  System.Threading.Tasks;\
+\cf2 using\cf0  System.Windows.Forms;\
+\cf2 using\cf0  System.IO;\
+\cf2 using\cf0  System.Diagnostics;\
+\cf2 using\cf0  Bcl.EasyPdfCloud;\
+\
+\cf2 namespace\cf0  RestAPI2\
+\{\
+    \cf2 public\cf0  \cf2 partial\cf0  \cf2 class\cf0  \cf3 Form1\cf0  : \cf3 Form\cf0 \
+    \{\
+        \cf2 public\cf0  Form1()\
+        \{\
+            InitializeComponent();\
+        \}\
+\
+        \
+        \cf2 private\cf0   \cf2 void\cf0   button1_Click(\cf2 object\cf0  sender, \cf3 EventArgs\cf0  e)\
+        \{\
+            \
+            System.Windows.Forms.\cf3 OpenFileDialog\cf0  openFile;\
+            System.Windows.Forms.\cf3 SaveFileDialog\cf0  savePDFFile;\
+            \cf2 string\cf0  inFileName;\
+            \cf2 string\cf0  outFileName;\
+            \cf2 int\cf0  pos;\
+        \
+            openFile = \cf2 new\cf0  System.Windows.Forms.\cf3 OpenFileDialog\cf0 ();\
+            openFile.Filter = \cf4 "all files (*.*)|*.*"\cf0 ;\
+            openFile.Title = \cf4 "Select a File"\cf0 ;\
+            \cf2 if\cf0  (openFile.ShowDialog() != \cf3 DialogResult\cf0 .OK)\
+            \{\
+\
+            \}\
+\
+            inFileName = openFile.FileName;\
+            outFileName = inFileName;\
+\
+            pos = inFileName.LastIndexOf(\cf4 '.'\cf0 );\
+            \cf2 if\cf0  (pos > 0)\
+                outFileName = outFileName.Substring(0, pos);\
+            outFileName += \cf4 ".pdf"\cf0 ;\
+\
+\
+            savePDFFile = \cf2 new\cf0  System.Windows.Forms.\cf3 SaveFileDialog\cf0 ();\
+            savePDFFile.FileName = outFileName;\
+            savePDFFile.Filter = \cf4 "PDF Files (*.pdf)|*.pdf"\cf0 ;\
+            savePDFFile.Title = \cf4 "Save PDF File"\cf0 ;\
+            \cf2 if\cf0  (savePDFFile.ShowDialog() != \cf3 DialogResult\cf0 .OK)\
+            \{\
+              \
+            \}\
+\
+            outFileName = savePDFFile.FileName;\
+\
+            \cf2 var\cf0  task = \cf3 ConvertToPDF\cf0 .MainAsync(inFileName,outFileName);\
+            task.ConfigureAwait(\cf2 false\cf0 );\
+        \}\
+\
+        \cf2 private\cf0  \cf2 void\cf0  button2_Click(\cf2 object\cf0  sender, \cf3 EventArgs\cf0  e)\
+        \{\
+\
+\
+            \cf2 var\cf0  task2 = \cf3 ConvertToWord\cf0 .MainAsync();\
+            task2.ConfigureAwait(\cf2 false\cf0 );\
+        \}\
+\
+        \cf2 private\cf0  \cf2 void\cf0  button3_Click(\cf2 object\cf0  sender, \cf3 EventArgs\cf0  e)\
+        \{\
+\
+\
+            \cf2 var\cf0  task3 = \cf3 CombineToPDF\cf0 .MainAsync();\
+            task3.ConfigureAwait(\cf2 false\cf0 );\
+        \}\
+\
+        \cf2 private\cf0  \cf2 void\cf0  button1_MouseHover(\cf2 object\cf0  sender, \cf3 EventArgs\cf0  e)\
+        \{\
+            \cf3 ToolTip\cf0  tool1 = \cf2 new\cf0  \cf3 ToolTip\cf0 ();\
+            tool1.ShowAlways = \cf2 true\cf0 ;\
+            tool1.IsBalloon = \cf2 true\cf0 ;\
+            tool1.SetToolTip(button1, \cf4 "Convert to PDF"\cf0 );\
+\
+        \}\
+\
+        \cf2 private\cf0  \cf2 void\cf0  toolTip1_Popup(\cf2 object\cf0  sender, \cf3 PopupEventArgs\cf0  e)\
+        \{\
+           \
+        \}\
+\
+        \cf2 private\cf0  \cf2 void\cf0  button4_Click(\cf2 object\cf0  sender, \cf3 EventArgs\cf0  e)\
+        \{\
+             \
+        \}\
+\
+        \cf2 private\cf0  \cf2 void\cf0  button2_MouseHover(\cf2 object\cf0  sender, \cf3 EventArgs\cf0  e)\
+        \{\
+            \cf3 ToolTip\cf0  tool1 = \cf2 new\cf0  \cf3 ToolTip\cf0 ();\
+            tool1.ShowAlways = \cf2 true\cf0 ;\
+            tool1.IsBalloon = \cf2 true\cf0 ;\
+            tool1.SetToolTip(button2, \cf4 "Convert to Word"\cf0 );\
+        \}\
+\
+        \cf2 private\cf0  \cf2 void\cf0  button3_MouseHover(\cf2 object\cf0  sender, \cf3 EventArgs\cf0  e)\
+        \{\
+            \cf3 ToolTip\cf0  tool1 = \cf2 new\cf0  \cf3 ToolTip\cf0 ();\
+            tool1.ShowAlways = \cf2 true\cf0 ;\
+            tool1.IsBalloon = \cf2 true\cf0 ;\
+            tool1.SetToolTip(button3, \cf4 "Combine to PDF"\cf0 );\
+        \}\
+\
+        \
+    \}\
+\}\
+\
+}
